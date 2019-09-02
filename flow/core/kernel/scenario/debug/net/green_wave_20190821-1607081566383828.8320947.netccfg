@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+  <input>
+    <node-files value="green_wave_20190821-1607081566383828.8320947.nod.xml"/>
+    <edge-files value="green_wave_20190821-1607081566383828.8320947.edg.xml"/>
+    <type-files value="green_wave_20190821-1607081566383828.8320947.typ.xml"/>
+    <connection-files value="green_wave_20190821-1607081566383828.8320947.con.xml"/>
+  </input>
+  <output>
+    <output-file value="green_wave_20190821-1607081566383828.8320947.net.xml"/>
+  </output>
+  <processing>
+    <no-internal-links value="false"/>
+    <no-turnarounds value="true"/>
+  </processing>
+</configuration>
