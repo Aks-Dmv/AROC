@@ -119,8 +119,8 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
                 NextEntropyso1 = -(NextLog_probso1 * NextProbso1).sum(1)
                 NextEntropyso2 = -(NextLog_probso2* NextProbso2).sum(1)
 
-                NextLog_probso1 = logpo2.gather(1, Variable(torch.from_numpy(np.array([[o1temp]]))))
-                NextLog_probso2 = logpo2.gather(1, Variable(torch.from_numpy(np.array([[o2temp]]))))
+                NextLog_probso1 = NextLog_probso1.gather(1, Variable(torch.from_numpy(np.array([[o1temp]]))))
+                NextLog_probso2 = NextLog_probso2.gather(1, Variable(torch.from_numpy(np.array([[o2temp]]))))
                 NextValue = NextQo1.max(-1)[0]
                 NextQo1 = NextQo1[0][o1temp]
                 NextQo2 = NextQo2[0][o2temp]
@@ -132,14 +132,16 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
             ### update policy
             # adv1 = R - player.qs1[i]
             delta2 = R - player.qs2[i]
-            beta1 = player.termprobs1[i].data
-            beta2 = player.termprobs2[i].data
+
 
             policy_loss = policy_loss - \
                 player.log_probsa[i] * \
                 Variable(delta2) - 0.1 * player.entropiesA[i]
 
             if i+1 < thesize:
+
+                beta1 = player.termprobs1[i+1].data
+                beta2 = player.termprobs2[i+1].data
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso1[i+1] * \

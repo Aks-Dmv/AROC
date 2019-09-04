@@ -52,7 +52,6 @@ class HOCAgent(object):
     def action_train(self):
 
         qo1= self.model(Variable(self.state))
-        print("in action_train",Variable(self.state),self.o1,Variable(self.o1),self.o2)
 
         yt2 = self.model.getTermination2(Variable(self.state),self.o1,self.o2)
         term2 = yt2.bernoulli()
@@ -62,6 +61,7 @@ class HOCAgent(object):
         t1 = term1.data[0][0]
         oldo2 = self.o2
         oldo1 = self.o1
+
 
         ### check if option 2 terminates
         if t2==1.0:

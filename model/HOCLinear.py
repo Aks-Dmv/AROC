@@ -44,7 +44,7 @@ class HOCModel(torch.nn.Module):
 
 
         for i in range(0, num_options):
-            self.option2policy[i] = nn.Linear(num_inputs, num_outputs)
+            self.option2policy[i] = nn.Linear(num_inputs, num_options)
             self.module_list += [self.option2policy[i]]
             self.termlayer1[i] = nn.Linear(num_inputs, 1)
             self.module_list += [self.termlayer1[i]]
@@ -55,7 +55,7 @@ class HOCModel(torch.nn.Module):
             self.termlayer1[i].weight.data = norm_col_init(self.termlayer1[i].weight.data, 0.01)
             self.termlayer1[i].bias.data.fill_(0)
 
-            self.h2qo2[i] = nn.Linear(num_inputs, num_outputs)
+            self.h2qo2[i] = nn.Linear(num_inputs, num_options)
             self.module_list += [self.h2qo2[i]]
 
             ###init

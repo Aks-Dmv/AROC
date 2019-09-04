@@ -1,0 +1,25 @@
+2019-09-04 16:57:48,233 : lr: 0.0001
+2019-09-04 16:57:48,234 : width: 8
+2019-09-04 16:57:48,235 : gamma: 1.0
+2019-09-04 16:57:48,235 : tau: 1.0
+2019-09-04 16:57:48,236 : seed: 1
+2019-09-04 16:57:48,236 : workers: 1
+2019-09-04 16:57:48,236 : num_steps: 50
+2019-09-04 16:57:48,237 : max_episode_length: 10000
+2019-09-04 16:57:48,237 : env: FourRooms-v0
+2019-09-04 16:57:48,237 : env_config: config.json
+2019-09-04 16:57:48,238 : shared_optimizer: True
+2019-09-04 16:57:48,238 : load: False
+2019-09-04 16:57:48,238 : save_max: True
+2019-09-04 16:57:48,239 : optimizer: Adam
+2019-09-04 16:57:48,239 : load_model_dir: _trained_models/
+2019-09-04 16:57:48,239 : save_model_dir: saved/ocpgAvFRmssave/
+2019-09-04 16:57:48,239 : log_dir: saved/ocpgAvFRmssave/
+2019-09-04 16:57:48,240 : gpu_ids: [-1]
+2019-09-04 16:57:48,240 : amsgrad: True
+2019-09-04 16:57:48,240 : skip_rate: 4
+2019-09-04 16:57:48,241 : options: 7
+2019-09-04 16:57:48,241 : delib: 0.1
+2019-09-04 16:57:48,241 : eps: 0.05
+2019-09-04 16:57:48,270 : Time 00h 00m 00s, episode reward 0.0, episode length 43, reward mean 0.0000, terminations 24, switches 21
+2019-09-04 16:57:58,278 : Time 00h 00m 10s, episode reward 0.0, episode length 3, reward mean 0.0000, terminations 1, switches 1

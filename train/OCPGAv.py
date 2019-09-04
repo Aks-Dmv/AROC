@@ -121,6 +121,7 @@ def trainocpg(rank, args, shared_model, optimizer, env_conf):
                 NextLog_probso = F.log_softmax(NextLogito, dim=1)
 
                 NextValue = NextQ.max(-1)[0]
+                NextQ = NextQ[0][otensor.numpy()[0][0]]
                 NextEntropyso = -(NextLog_probso * NextProbso).sum(1)
                 NextLog_probso = NextLog_probso.gather(1, Variable(otensor))
                 difference2 = before - NextValue

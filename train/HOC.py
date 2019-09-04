@@ -109,14 +109,15 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
             ### update policy
             # adv1 = R - player.qs1[i]
             delta2 = R - player.qs2[i]
-            beta1 = player.termprobs1[i].data
-            beta2 = player.termprobs2[i].data
+
 
             policy_loss = policy_loss - \
                 player.log_probsa[i] * \
                 Variable(delta2) - 0.1 * player.entropiesA[i]
 
             if i+1 < thesize:
+                beta1 = player.termprobs1[i+1].data
+                beta2 = player.termprobs2[i+1].data
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso1[i+1] * \

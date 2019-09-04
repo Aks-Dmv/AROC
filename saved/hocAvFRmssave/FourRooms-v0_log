@@ -1,0 +1,25 @@
+2019-09-04 16:57:32,856 : lr: 0.0001
+2019-09-04 16:57:32,857 : width: 8
+2019-09-04 16:57:32,857 : gamma: 1.0
+2019-09-04 16:57:32,858 : tau: 1.0
+2019-09-04 16:57:32,858 : seed: 1
+2019-09-04 16:57:32,858 : workers: 1
+2019-09-04 16:57:32,859 : num_steps: 50
+2019-09-04 16:57:32,859 : max_episode_length: 10000
+2019-09-04 16:57:32,859 : env: FourRooms-v0
+2019-09-04 16:57:32,860 : env_config: config.json
+2019-09-04 16:57:32,860 : shared_optimizer: True
+2019-09-04 16:57:32,860 : load: False
+2019-09-04 16:57:32,861 : save_max: True
+2019-09-04 16:57:32,861 : optimizer: Adam
+2019-09-04 16:57:32,861 : load_model_dir: _trained_models/
+2019-09-04 16:57:32,862 : save_model_dir: saved/hocAvFRmssave/
+2019-09-04 16:57:32,862 : log_dir: saved/hocAvFRmssave/
+2019-09-04 16:57:32,862 : gpu_ids: [-1]
+2019-09-04 16:57:32,863 : amsgrad: True
+2019-09-04 16:57:32,863 : skip_rate: 4
+2019-09-04 16:57:32,863 : options: 3
+2019-09-04 16:57:32,864 : delib: 0.1
+2019-09-04 16:57:32,864 : eps: 0.05
+2019-09-04 16:57:32,879 : Time 00h 00m 00s, episode reward 0.0, episode length 3, reward mean 0.0000, terminations o1 0, switches o1 0, terminations o2 1, switches o2 1
+2019-09-04 16:57:42,889 : Time 00h 00m 10s, episode reward 0.0, episode length 3, reward mean 0.0000, terminations o1 0, switches o1 0, terminations o2 0, switches o2 0
