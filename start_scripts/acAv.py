@@ -36,7 +36,7 @@ parser.add_argument(
 parser.add_argument(
     '--gamma',
     type=float,
-    default=0.9,
+    default=1.0,
     metavar='G',
     help='discount factor for rewards (default: 0.9)')
 parser.add_argument(

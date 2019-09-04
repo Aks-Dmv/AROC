@@ -74,10 +74,10 @@ def trainac(rank, args, shared_model, optimizer, env_conf):
                     player.state = player.state.cuda()
 
         R = torch.zeros(1, 1)
-        # if not player.done:
-        q, logit = player.model(Variable(player.state))
-        v = q.max(-1)[0]
-        R = v.data
+        if not player.done:
+            q, logit = player.model(Variable(player.state))
+            v = q.max(-1)[0]
+            R = v.data
 
         if gpu_id >= 0:
             with torch.cuda.device(gpu_id):
@@ -98,10 +98,11 @@ def trainac(rank, args, shared_model, optimizer, env_conf):
             before = R
             R = args.gamma * R + player.rewards[i]
             difference = R - player.qs[i]
+            advantage = R - player.values[i]
             value_loss = value_loss + 0.5 * difference.pow(2)
 
 
-            policy_loss = policy_loss - player.log_probs[i]*Variable(difference.data) - 0.01*player.entropies[i]
+            policy_loss = policy_loss - player.log_probs[i]*Variable(advantage.data) - 0.1*player.entropies[i]
 
 
 

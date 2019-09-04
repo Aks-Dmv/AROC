@@ -66,10 +66,10 @@ class FourRoomsEnv(gym.Env):
         Xcoord = self._XorYToDecimal(TempState[0:self.xBits])
         Ycoord = self._XorYToDecimal(TempState[2:2+self.yBits])
 
-        for i in range( math.pow(2,self.yBits) ):
+        for i in reversed(range( int(math.pow(2,self.yBits)) )):
             # for each row we will print a string
             rowToRender=""
-            for j in range( math.pow(2,self.xBits) ):
+            for j in range(int( math.pow(2,self.xBits) )):
                 if(i!=Ycoord):
                     rowToRender="_"*int( math.pow(2,self.xBits) )
                 else:

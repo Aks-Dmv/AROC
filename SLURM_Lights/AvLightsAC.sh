@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name=AvLightsAC# Job name
-#SBATCH --ntasks=16 # Run on a single CPU
+#SBATCH --ntasks=17 # Run on a single CPU
 #SBATCH --time=00:30:00 # Time limit hrs:min:sec
 #SBATCH --output=logs/AvLightsAC%j.out # Standard output and error log
 #SBATCH --partition=cl1_48h-1G

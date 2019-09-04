@@ -58,6 +58,7 @@ def testhoc(args, shared_model, env_conf):
             flag = False
 
         player.action_test()
+        player.env.render()
         EpisodeLength+=1
         reward_sum += player.reward
 
@@ -92,6 +93,7 @@ def testhoc(args, shared_model, env_conf):
             player.switches1 = 0
             player.terms2 = 0
             player.switches2 = 0
+
             state = player.env.reset()
             player.eps_len += 2
             time.sleep(10)

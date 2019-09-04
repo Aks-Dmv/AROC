@@ -129,12 +129,12 @@ def trainocpg(rank, args, shared_model, optimizer, env_conf):
             value_loss = value_loss + 0.5 * difference.pow(2)
 
 
-            policy_loss = policy_loss - player.log_probs[i]*Variable(difference.data) - 0.01*player.entropies[i]
+            policy_loss = policy_loss - player.log_probs[i]*Variable(difference.data) - 0.1*player.entropies[i]
 
             if i+1 < thesize:
                 beta = player.termprobs[i+1].data
 
-                policy_loss = policy_loss - args.gamma*beta*player.log_probso[i+1]*Variable(difference2.data) - 0.01*player.entropieso[i+1]
+                policy_loss = policy_loss - args.gamma*beta*player.log_probso[i+1]*Variable(difference2.data) - 0.1*player.entropieso[i+1]
 
                 ###!!!!! termination update
                 advantage = player.qs[i+1].data-player.values[i+1].data+args.delib
@@ -143,7 +143,7 @@ def trainocpg(rank, args, shared_model, optimizer, env_conf):
             else:
                 beta = NextTerm.data
 
-                policy_loss = policy_loss - args.gamma*beta*NextLog_probso*Variable(difference2.data) - 0.01*NextEntropyso
+                policy_loss = policy_loss - args.gamma*beta*NextLog_probso*Variable(difference2.data) - 0.1*NextEntropyso
 
                 ###!!!!! termination update
                 advantage = NextQ.data-NextValue.data+args.delib

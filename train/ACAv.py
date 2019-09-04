@@ -99,10 +99,11 @@ def trainac(rank, args, shared_model, optimizer, env_conf):
             before = R
             R = args.gamma * R + player.rewards[i] - JPi
             difference = R - player.qs[i]
+            advantage = R - player.values[i]
             value_loss = value_loss + 0.5 * difference.pow(2)
 
 
-            policy_loss = policy_loss - player.log_probs[i]*Variable(difference.data) - 0.01*player.entropies[i]
+            policy_loss = policy_loss - player.log_probs[i]*Variable(advantage.data) - 0.1*player.entropies[i]
 
 
 

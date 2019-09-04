@@ -3,7 +3,7 @@ from setproctitle import setproctitle as ptitle
 from torch import optim as optim
 from torch.autograd import Variable
 from torch.nn import functional as F
-
+import numpy as np
 from environment import *
 from model.HOCLinear import HOCModel
 from agent.HOC import HOCAgent
@@ -39,6 +39,7 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
     player.eps_len += 2
     threshold = 0
     EnvNumSteps=0
+    reward_mean=0.
     while True:
         if EnvNumSteps > threshold:
             threshold += 5000
@@ -51,8 +52,8 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
             player.model.load_state_dict(shared_model.state_dict())
         if player.done:
             ### add in option selection part
-            probo1,logpo1,player.o1 = player.model.getPolicyO1(player.hx)
-            probo2,logpo2,player.o2 = player.model.getPolicyO2(player.hx,player.o1)
+            probo1,logpo1,player.o1 = player.model.getPolicyO1(Variable(player.state))
+            probo2,logpo2,player.o2 = player.model.getPolicyO2(Variable(player.state),player.o1)
 
         else:
             player.o1 = player.o1
@@ -72,11 +73,11 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
                     player.state = player.state.cuda()
 
         R = torch.zeros(1, 1)
-        if not player.done:
-            q = player.model(Variable(player.state))
+        # if not player.done:
+        q = player.model(Variable(player.state))
 
-            v = q.max(-1)[0]
-            R = v.data
+        v = q.max(-1)[0]
+        R = v.data
 
         if gpu_id >= 0:
             with torch.cuda.device(gpu_id):
@@ -92,10 +93,13 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
                 gae = gae.cuda()
         R = Variable(R)
         thesize = len(player.rewards)
+        reward_sum=sum(player.rewards)
+        reward_mean = reward_mean + (reward_sum - thesize*reward_mean)/ EnvNumSteps
+        JPi = Variable(torch.tensor(reward_mean))
         for i in reversed(range(len(player.rewards))):
             ### update discounted reward
             before = R
-            R = args.gamma * R + player.rewards[i]
+            R = args.gamma * R + player.rewards[i] - JPi
 
             ### update value function
             difference1 = R - player.qs1[i]
@@ -133,17 +137,17 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
 
             policy_loss = policy_loss - \
                 player.log_probsa[i] * \
-                Variable(delta2) - 0.01 * player.entropiesA[i]
+                Variable(delta2) - 0.1 * player.entropiesA[i]
 
             if i+1 < thesize:
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso1[i+1] * \
-                    Variable(beta1 * beta2 * difference3.data) - 0.01 * player.entropieso1[i+1]
+                    Variable(beta1 * beta2 * difference3.data) - 0.1 * player.entropieso1[i+1]
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso2[i+1] * \
-                    Variable(beta2 * difference4.data) - 0.01 * player.entropieso2[i+1]
+                    Variable(beta2 * difference4.data) - 0.1 * player.entropieso2[i+1]
 
                 advantage1 = player.qs1[i+1].data - player.values[i+1].data + args.delib
                 phi_loss = phi_loss + \
@@ -162,11 +166,11 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
 
                 policy_loss = policy_loss - \
                     args.gamma * NextLog_probso1 * \
-                    Variable(beta1 * beta2 * difference3.data) - 0.01 * NextEntropyso1
+                    Variable(beta1 * beta2 * difference3.data) - 0.1 * NextEntropyso1
 
                 policy_loss = policy_loss - \
                     args.gamma * NextLog_probso2 * \
-                    Variable( beta2* difference4.data) - 0.01 * NextEntropyso2
+                    Variable( beta2* difference4.data) - 0.1 * NextEntropyso2
 
                 advantage1 = NextQo1.data - NextValue.data + args.delib
                 phi_loss = phi_loss + \

@@ -4,7 +4,7 @@ os.environ["OMP_NUM_THREADS"] = "1"
 import argparse
 import torch
 import torch.multiprocessing as mp
-from environment import atari_env
+from environment import *
 from utils import read_config
 from model.HOCLinear import HOCModel
 from train.HOCAv import trainhoc
@@ -30,9 +30,9 @@ parser.add_argument(
 parser.add_argument(
     '--gamma',
     type=float,
-    default=0.9,
+    default=1.0,
     metavar='G',
-    help='discount factor for rewards (default: 0.99)')
+    help='discount factor for rewards (default: 1.0)')
 parser.add_argument(
     '--tau',
     type=float,

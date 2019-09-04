@@ -26,7 +26,7 @@ class ACModel(torch.nn.Module):
             num_outputs = action_space.n
         except AttributeError:
             num_outputs = len(action_space.sample())
-        self.critic_linear = nn.Linear(num_inputs, num_options)
+        self.critic_linear = nn.Linear(num_inputs, num_outputs)
         self.module_list += [self.critic_linear]
         self.actionpolicy = nn.Linear(num_inputs, num_outputs)
         self.module_list += [self.actionpolicy]

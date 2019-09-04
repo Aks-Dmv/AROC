@@ -51,8 +51,8 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
             player.model.load_state_dict(shared_model.state_dict())
         if player.done:
             ### add in option selection part
-            probo1,logpo1,player.o1 = player.model.getPolicyO1(player.hx)
-            probo2,logpo2,player.o2 = player.model.getPolicyO2(player.hx,player.o1)
+            probo1,logpo1,player.o1 = player.model.getPolicyO1(Variable(player.state))
+            probo2,logpo2,player.o2 = player.model.getPolicyO2(Variable(player.state),player.o1)
 
         else:
             player.o1 = player.o1
@@ -114,17 +114,17 @@ def trainhoc(rank, args, shared_model, optimizer, env_conf):
 
             policy_loss = policy_loss - \
                 player.log_probsa[i] * \
-                Variable(delta2) - 0.01 * player.entropiesA[i]
+                Variable(delta2) - 0.1 * player.entropiesA[i]
 
             if i+1 < thesize:
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso1[i+1] * \
-                    Variable(beta1 * beta2 * difference3.data) - 0.01 * player.entropieso1[i+1]
+                    Variable(beta1 * beta2 * difference3.data) - 0.1 * player.entropieso1[i+1]
 
                 policy_loss = policy_loss - \
                     args.gamma * player.log_probso2[i+1] * \
-                    Variable(beta2 * difference4.data) - 0.01 * player.entropieso2[i+1]
+                    Variable(beta2 * difference4.data) - 0.1 * player.entropieso2[i+1]
 
                 advantage1 = player.qs1[i+1].data - player.values[i+1].data + args.delib
                 phi_loss = phi_loss + \

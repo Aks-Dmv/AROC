@@ -67,6 +67,7 @@ def testocpg(args, shared_model, env_conf):
             flag = False
 
         player.action_test()
+        player.env.render()
         EpisodeLength+=1
         reward_sum += player.reward
 
@@ -102,6 +103,7 @@ def testocpg(args, shared_model, env_conf):
             player.eps_len = 0
             player.terms = 0
             player.switches = 0
+
             state = player.env.reset()
             player.eps_len += 2
             time.sleep(10)
